@@ -8,6 +8,7 @@ from typing import List, Optional, Callable, Dict
 import pygame
 
 from pygamepp.game_object import GameObject
+from pygamepp.grid_game_object import GridGameObject
 
 pygame.init()
 
@@ -28,7 +29,7 @@ class Game:
 
         self.running = False
         self.event_handlers: Dict[int, Callable[[pygame.event.EventType], None]] = {}
-        self.game_objects: List[GameObject] = []
+        self.game_objects: List[GameObject, GridGameObject] = []
 
         self.background_image = pygame.image.load(background_path) if background_path else None
 

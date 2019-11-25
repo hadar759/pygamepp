@@ -37,12 +37,15 @@ class Game:
         """Run the game"""
         clock = pygame.time.Clock()
         self.set_event_handler(pygame.QUIT, self.quit)
-     
+        self.set_event_handler(pygame.KEYDOWN, self.keyboard_actions)
         for event in pygame.event.get():
             event_function = self.event_handlers.get(event.type)
 
             if event_function:
-                event_function()
+                if event_function == self.keyboard_actions:
+                    event_function(event)
+                else:
+                    event_function()
 
         if self.background_image:
             self.screen.blit(self.background_image, (0, 0))
@@ -60,7 +63,8 @@ class Game:
     def create_timer(self, event_number: int, timer_time: int):
         pygame.time.set_timer(event_number, timer_time)
 
-
+    def keyboard_actions(self, event):
+        self.event_handlers[event.key]()
 
     def quit(self):
         self.running = False

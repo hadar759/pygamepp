@@ -4,7 +4,7 @@ import pygame
 class GameObject:
     def __init__(self, sprite: pygame.sprite, position):
         self.sprite = sprite
-        colorkey = self.sprite.get_at((0,0))
+        colorkey = self.sprite.get_at((0, 0))
         self.sprite.set_colorkey(colorkey)
 
         self.position = position

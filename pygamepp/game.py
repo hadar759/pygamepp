@@ -34,26 +34,24 @@ class Game:
 
     def run(self):
         """Run the game"""
-        self.running = True
         clock = pygame.time.Clock()
         self.set_event_handler(pygame.QUIT, self.quit)
 
-        while self.running:
-            for event in pygame.event.get():
-                event_function = self.event_handlers.get(event.type)
+        for event in pygame.event.get():
+            event_function = self.event_handlers.get(event.type)
 
-                if event_function:
-                    event_function()
+            if event_function:
+                event_function()
 
-            if self.background_image:
-                self.screen.blit(self.background_image, (0, 0))
+        if self.background_image:
+            self.screen.blit(self.background_image, (0, 0))
 
-            for game_object in self.game_objects:
-                game_object.display_object(self.screen)
+        for game_object in self.game_objects:
+            game_object.display_object(self.screen)
 
-            pygame.display.flip()
+        pygame.display.flip()
 
-            clock.tick(self.refresh_rate)
+        clock.tick(self.refresh_rate)
 
         pygame.quit()
 

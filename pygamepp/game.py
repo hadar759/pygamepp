@@ -37,6 +37,7 @@ class Game:
         """Run the game"""
         clock = pygame.time.Clock()
         self.set_event_handler(pygame.QUIT, self.quit)
+        self.set_event_handler(pygame.KEYDOWN, self.keyboard_action)
 
         for event in pygame.event.get():
             event_function = self.event_handlers.get(event.type)
@@ -54,13 +55,15 @@ class Game:
 
         clock.tick(self.refresh_rate)
 
-        pygame.quit()
-
     def set_event_handler(self, event_num: int, func: Callable[[pygame.event.EventType], None]):
         self.event_handlers[event_num] = func
 
     def create_timer(self, event_number: int, timer_time: int):
         pygame.time.set_timer(event_number, timer_time)
+
+    def keyboard_action(self, event):
+        pass
+
 
     def quit(self):
         self.running = False

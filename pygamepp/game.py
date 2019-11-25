@@ -60,8 +60,8 @@ class Game:
     def set_event_handler(self, event_num: int, func: Callable[[pygame.event.EventType], None]):
         self.event_handlers[event_num] = func
 
-    def create_timer(self, event_number: int, timer_time: int):
-        pygame.time.set_timer(event_number, timer_time)
+    def create_timer(self, event_number: int, timer_time: int, repeat: bool = False):
+        pygame.time.set_timer(event_number, timer_time, repeat)
 
     def keyboard_actions(self, event):
         event_function = self.event_handlers.get(event.key)

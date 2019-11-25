@@ -64,7 +64,10 @@ class Game:
         pygame.time.set_timer(event_number, timer_time)
 
     def keyboard_actions(self, event):
-        self.event_handlers[event.key]()
+        event_function = self.event_handlers.get(event.key)
+        if event_function:
+            event_function()
+
 
     def quit(self):
         self.running = False

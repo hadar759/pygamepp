@@ -9,19 +9,24 @@ from pygamepp.block import Block
 
 
 class Grid:
-    def __init__(self, block_num: int, block_size: int):
-        self.grid_size = block_num
+    def __init__(self, height: int, width: int, block_size: int):
+        self.height = height
+        self.width = width
 
         self.blocks = []
-        for i in range(block_num):
+        for i in range(self.height):
             self.blocks.append([Block((i * block_size, j * block_size), False)
-                                for j in range(block_num)])
+                                for j in range(self.width)])
 
     def is_a_legal_move(self, position: List[int]) -> bool:
         """Returns whether an object already occupies a given position"""
-        return (0 <= position[0] < self.grid_size
-                and 0 <= position[1] < self.grid_size
+        return (0 <= position[0] < self.height
+                and 0 <= position[1] < self.width
                 and not self.blocks[position[0]][position[1]].occupied)
+
+    def occupy_block(self, block_num):
+        cur_block = self.blocks[block_num[0]][block_num[1]]
+        cur_block.occupied = True
 
     def get_available_positions_around(self, position) -> List[List[int]]:
         """Return a list of all available positions around a given position"""

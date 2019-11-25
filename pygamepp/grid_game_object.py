@@ -14,4 +14,4 @@ class GridGameObject:
 
     def display_object(self, screen: pygame.Surface):
         for pos in self.position:
-            screen.blit(self.sprite, (pos[0] * self.block_size, pos[1] * self.block_size))
+            screen.blit(self.sprite, (pos[1] * self.block_size, pos[0] * self.block_size))

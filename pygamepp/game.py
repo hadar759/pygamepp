@@ -30,6 +30,7 @@ class Game:
         self.running = False
         self.event_handlers: Dict[int, Callable[[pygame.event.EventType], None]] = {}
         self.game_objects: List[GameObject, GridGameObject] = []
+        self.last_pressed_key = 0
 
         self.background_image = pygame.image.load(background_path) if background_path else None
 
@@ -40,6 +41,8 @@ class Game:
         self.set_event_handler(pygame.KEYDOWN, self.keyboard_actions)
         for event in pygame.event.get():
             event_function = self.event_handlers.get(event.type)
+            if hasattr(event, "key"):
+                self.last_pressed_key = event.key
 
             if event_function:
                 if event_function == self.keyboard_actions:
@@ -67,7 +70,6 @@ class Game:
         event_function = self.event_handlers.get(event.key)
         if event_function:
             event_function()
-
 
     def quit(self):
         self.running = False

@@ -40,11 +40,11 @@ class Game:
                 self.last_pressed_key = event.key
 
             event_function = self.event_handlers.get(event.type)
-
-            try:
-                event_function(event)
-            except TypeError:
-                event_function()
+            if event_function:
+                try:
+                    event_function(event)
+                except TypeError:
+                    event_function()
 
         if self.background_image:
             self.screen.blit(self.background_image, (0, 0))

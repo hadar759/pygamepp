@@ -1,9 +1,4 @@
-# Hadar Dagan
-# Cyber project - Crazy Planes
-# Version 1.0
-# November 17th, 2019
-
-from typing import List, Optional, Callable, Dict
+from typing import List, Optional, Callable, Dict, Union
 
 import pygame
 
@@ -12,6 +7,8 @@ from pygamepp.grid_game_object import GridGameObject
 
 pygame.init()
 
+EVENT_HANDLER_TYPE = Union[Callable[[pygame.event.EventType], None],
+                           Callable[[], None]]
 
 class Game:
     def __init__(self,
@@ -28,7 +25,7 @@ class Game:
         # self.grid = Grid(self.grid_size
 
         self.running = False
-        self.event_handlers: Dict[int, Callable[[pygame.event.EventType], None]] = {}
+        self.event_handlers: Dict[int, EVENT_HANDLER_TYPE] = {}
         self.game_objects: List[GameObject, GridGameObject] = []
         self.last_pressed_key = 0
 
@@ -38,17 +35,16 @@ class Game:
         """Run the game"""
         clock = pygame.time.Clock()
         self.set_event_handler(pygame.QUIT, self.quit)
-        self.set_event_handler(pygame.KEYDOWN, self.keyboard_actions)
         for event in pygame.event.get():
-            event_function = self.event_handlers.get(event.type)
             if hasattr(event, "key"):
                 self.last_pressed_key = event.key
 
-            if event_function:
-                if event_function == self.keyboard_actions:
-                    event_function(event)
-                else:
-                    event_function()
+            event_function = self.event_handlers.get(event.type)
+
+            try:
+                event_function(event)
+            except TypeError:
+                event_function()
 
         if self.background_image:
             self.screen.blit(self.background_image, (0, 0))
@@ -60,18 +56,12 @@ class Game:
 
         clock.tick(self.refresh_rate)
 
-    def set_event_handler(self, event_num: int, func: Callable[[pygame.event.EventType], None]):
+    def set_event_handler(self, event_num: int, func: EVENT_HANDLER_TYPE):
         self.event_handlers[event_num] = func
 
     def create_timer(self, event_number: int, timer_time: int, repeat: bool = False):
         pygame.time.set_timer(event_number, timer_time, repeat)
 
-    def keyboard_actions(self, event):
-        event_function = self.event_handlers.get(event.key)
-        if event_function:
-            event_function()
-
     def quit(self):
         self.running = False
         pygame.quit()
-

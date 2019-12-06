@@ -1,8 +1,3 @@
-# Hadar Dagan
-# Cyber project - Crazy Planes
-# Version 1.0
-# November 17th, 2019
-
 from typing import List
 
 from pygamepp.block import Block

@@ -34,33 +34,45 @@ class Game:
     def run(self):
         """Run the game"""
         clock = pygame.time.Clock()
+        self.running = True
         self.set_event_handler(pygame.QUIT, self.quit)
-        for event in pygame.event.get():
-            if hasattr(event, "key"):
-                self.last_pressed_key = event.key
+        while self.running:
+            self.start_of_loop()
 
-            event_function = self.event_handlers.get(event.type)
-            if event_function:
-                try:
-                    event_function(event)
-                except TypeError:
-                    event_function()
+            for event in pygame.event.get():
+                if hasattr(event, "key"):
+                    self.last_pressed_key = event.key
 
-        if self.background_image:
-            self.screen.blit(self.background_image, (0, 0))
+                event_function = self.event_handlers.get(event.type)
+                if event_function:
+                    try:
+                        event_function(event)
+                    except TypeError:
+                        event_function()
 
-        for game_object in self.game_objects:
-            game_object.display_object(self.screen)
+            if self.background_image:
+                self.screen.blit(self.background_image, (0, 0))
 
-        pygame.display.flip()
+            for game_object in self.game_objects:
+                game_object.display_object(self.screen)
 
-        clock.tick(self.refresh_rate)
+            self.end_of_loop()
+
+            pygame.display.flip()
+
+            clock.tick(self.refresh_rate)
 
     def set_event_handler(self, event_num: int, func: EVENT_HANDLER_TYPE):
         self.event_handlers[event_num] = func
 
     def create_timer(self, event_number: int, timer_time: int, repeat: bool = False):
         pygame.time.set_timer(event_number, timer_time, repeat)
+
+    def start_of_loop(self):
+        pass
+
+    def end_of_loop(self):
+        pass
 
     def quit(self):
         self.running = False

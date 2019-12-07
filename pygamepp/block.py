@@ -1,7 +1,5 @@
-from typing import Tuple
-
-
 class Block:
-    def __init__(self, position: Tuple[int, int], occupied: bool):
-        self.position = position
+    def __init__(self, x: int, y: int, occupied: bool):
+        self.x = x
+        self.y = y
         self.occupied = occupied

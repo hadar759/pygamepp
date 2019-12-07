@@ -10,6 +10,7 @@ pygame.init()
 EVENT_HANDLER_TYPE = Union[Callable[[pygame.event.EventType], None],
                            Callable[[], None]]
 
+
 class Game:
     def __init__(self,
                  width: int,
